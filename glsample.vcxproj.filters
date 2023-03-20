@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="winmain.cpp" />
+    <ClCompile Include="dsoundstream.cpp">
+      <Filter>mixer</Filter>
+    </ClCompile>
+    <ClCompile Include="dsoundmain.cpp">
+      <Filter>mixer</Filter>
+    </ClCompile>
+    <ClCompile Include="mixer.cpp">
+      <Filter>mixer</Filter>
+    </ClCompile>
+    <ClCompile Include="stb_vorbis.c">
+      <Filter>mixer</Filter>
+    </ClCompile>
+    <ClCompile Include="fileio.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="glew.c">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="ini.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="log.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="miniz.c">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="rawinput.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="winfont.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="wavfile.cpp">
+      <Filter>mixer</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="dsoundstream.h">
+      <Filter>mixer</Filter>
+    </ClInclude>
+    <ClInclude Include="dsoundmain.h">
+      <Filter>mixer</Filter>
+    </ClInclude>
+    <ClInclude Include="mixer.h">
+      <Filter>mixer</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_vorbis.h">
+      <Filter>mixer</Filter>
+    </ClInclude>
+    <ClInclude Include="colordefs.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="fileio.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="glew.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="ini.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="log.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="miniz.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="rawinput.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="wglew.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="winfont.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="wavfile.h">
+      <Filter>mixer</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="core">
+      <UniqueIdentifier>{afbcd2fc-5658-4cda-b588-ce5fcae10fd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="mixer">
+      <UniqueIdentifier>{22d7c4d2-e5b4-4e37-89fa-e0f9f55d9fae}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

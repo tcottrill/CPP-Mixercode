@@ -5,7 +5,10 @@ This is my take on mixing audio. This code is horrible and should not be used by
 
 NOTES:
 
-- Currently WAV and OGG supported.
-- Currently all samples must be the same frequency. 
+- Currently WAV and OGG supported. MP3 support coming.
+- Currently can only adjust the frequency on MONO sample. 
 - Code currently does not adjust the sample volume.
 - Code currently is MONO ONLY
+
+License Unlicense, use however you want. 
+

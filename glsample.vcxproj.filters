@@ -2,16 +2,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="winmain.cpp" />
-    <ClCompile Include="dsoundstream.cpp">
-      <Filter>mixer</Filter>
-    </ClCompile>
-    <ClCompile Include="dsoundmain.cpp">
-      <Filter>mixer</Filter>
-    </ClCompile>
     <ClCompile Include="mixer.cpp">
-      <Filter>mixer</Filter>
-    </ClCompile>
-    <ClCompile Include="stb_vorbis.c">
       <Filter>mixer</Filter>
     </ClCompile>
     <ClCompile Include="fileio.cpp">
@@ -38,18 +29,27 @@
     <ClCompile Include="wavfile.cpp">
       <Filter>mixer</Filter>
     </ClCompile>
+    <ClCompile Include="mmtimer.cpp">
+      <Filter>mixer</Filter>
+    </ClCompile>
+    <ClCompile Include="XAudio2Stream.cpp">
+      <Filter>mixer</Filter>
+    </ClCompile>
+    <ClCompile Include="wav_resample.cpp">
+      <Filter>mixer</Filter>
+    </ClCompile>
+    <ClCompile Include="wav_filters.cpp">
+      <Filter>mixer</Filter>
+    </ClCompile>
+    <ClCompile Include="stb_vorbis.c">
+      <Filter>mixer</Filter>
+    </ClCompile>
+    <ClCompile Include="helper_functions.cpp">
+      <Filter>mixer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="dsoundstream.h">
-      <Filter>mixer</Filter>
-    </ClInclude>
-    <ClInclude Include="dsoundmain.h">
-      <Filter>mixer</Filter>
-    </ClInclude>
     <ClInclude Include="mixer.h">
-      <Filter>mixer</Filter>
-    </ClInclude>
-    <ClInclude Include="stb_vorbis.h">
       <Filter>mixer</Filter>
     </ClInclude>
     <ClInclude Include="colordefs.h">
@@ -85,6 +85,27 @@
     <ClInclude Include="wavfile.h">
       <Filter>mixer</Filter>
     </ClInclude>
+    <ClInclude Include="mmtimer.h">
+      <Filter>mixer</Filter>
+    </ClInclude>
+    <ClInclude Include="XAudio2Stream.h">
+      <Filter>mixer</Filter>
+    </ClInclude>
+    <ClInclude Include="wav_resample.h">
+      <Filter>mixer</Filter>
+    </ClInclude>
+    <ClInclude Include="wav_filters.h">
+      <Filter>mixer</Filter>
+    </ClInclude>
+    <ClInclude Include="stb.h">
+      <Filter>mixer</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_vorbis.h">
+      <Filter>mixer</Filter>
+    </ClInclude>
+    <ClInclude Include="helper_functions.h">
+      <Filter>mixer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="core">
@@ -93,5 +114,8 @@
     <Filter Include="mixer">
       <UniqueIdentifier>{22d7c4d2-e5b4-4e37-89fa-e0f9f55d9fae}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

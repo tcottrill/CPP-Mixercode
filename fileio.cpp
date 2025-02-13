@@ -2,27 +2,25 @@
 #include "stdlib.h"
 #include "stdio.h"
 #include "miniz.h"
-#include <windows.h>  //for GetModuleFileName
 #include <stdbool.h> 
 #include <string.h>
+
+// Basic file and zip handling.
 
 long filesz = 0;
 size_t uncomp_size = 0;
 
 #pragma warning ( disable:4996 )
 
-
 int get_last_file_size()
 {
 	return filesz;
 }
 
-
 size_t get_last_zip_file_size()
 {
 	return  uncomp_size;
 }
-
 
 static int getFileSize(FILE *input)
 {
@@ -32,25 +30,6 @@ static int getFileSize(FILE *input)
 	fileSizeBytes = ftell(input);
 	fseek(input, 0, SEEK_SET);
 	return fileSizeBytes;
-}
-
-
-std::wstring getCurrentDirectoryW()
-{
-	//wchar_t buffer[MAX_PATH];
-	//GetModuleFileName(NULL, buffer, MAX_PATH);
-	//std::wstring::size_type pos = std::wstring(buffer).find_last_of(L"\\/");
-	//return std::wstring(buffer).substr(0, pos);
-	return std::wstring(); 
-}
-
-
-std::string getCurrentDirectory()
-{
-	char buffer[MAX_PATH];
-	GetModuleFileNameA(NULL, buffer, MAX_PATH);
-	std::string::size_type pos = std::string(buffer).find_last_of("\\/");
-	return std::string(buffer).substr(0, pos);
 }
 
 unsigned char* load_file(const char *filename)
@@ -71,8 +50,6 @@ unsigned char* load_file(const char *filename)
 	return buf;
 }
 
-
-
 int save_file(const char *filename, unsigned char *buf, int size)
 {
 	FILE *fd = fopen(filename, "wb");
@@ -81,20 +58,6 @@ int save_file(const char *filename, unsigned char *buf, int size)
 	fwrite(buf, size, 1, fd);
 	fclose(fd);
 	return 1;
-}
-
-
-void replaceExtension(std::string& str, std::string rep)
-{
-	//Usage
-	//std::string test; 
-	//test.assign("asteroids.png");
-	//IO.ReplaceExtension(test,"exe");
-
-	size_t extPos = str.rfind('.');
-	// Add the new extension. 
-	str.replace(extPos + 1, rep.length(), rep);
-	rep.clear();
 }
 
 // ToDo: Add a debug clause in front of the logging to disable it

@@ -1,4 +1,3 @@
-
 #include "winfont.h"
 
 GLuint textBase = 0;
@@ -15,7 +14,6 @@ int GetCharFontWidth(const char cCharacter)
 	ReleaseDC(hWnd, hDC);
 	return (int)kSize.cx;
 }
-
 
 int Font_Init(int sizept)
 {
@@ -54,7 +52,7 @@ int Font_Init(int sizept)
 		"Arial");
 
 	//Select font
-	oldfont = (HFONT)  SelectObject(hdc, font);
+	oldfont = (HFONT)SelectObject(hdc, font);
 
 	//Fill in the 96 display lists, starting with character 32
 	wglUseFontBitmaps(hdc, 32, 96, textBase);
@@ -66,7 +64,6 @@ int Font_Init(int sizept)
 
 	return 1;
 }
-
 
 //Start text mode
 void StartTextMode(void)
@@ -88,13 +85,13 @@ void StartTextMode(void)
 	}
 
 	//Call the list
-	//	glPushAttrib(GL_LIST_BIT);				// Pushes The Display List Bits		
+	//	glPushAttrib(GL_LIST_BIT);				// Pushes The Display List Bits
 	glCallList(startTextModeList);
 	//	glPopAttrib();
 }
 
 //Print some text
-void Font_Print(int x, int y, const char * string, ...)
+void Font_Print(int x, int y, const char* string, ...)
 {
 	//Convert to text
 	static char text[256];
@@ -131,4 +128,3 @@ void KillFont()						// Delete The Font List
 {
 	glDeleteLists(textBase, 96);				// Delete All 96 Characters ( NEW )
 }
-

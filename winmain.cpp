@@ -1,29 +1,4 @@
-/*
-This is free and unencumbered software released into the public domain.
 
-Anyone is free to copy, modify, publish, use, compile, sell, or
-distribute this software, either in source code form or as a compiled
-binary, for any purpose, commercial or non-commercial, and by any
-means.
-
-In jurisdictions that recognize copyright laws, the author or authors
-of this software dedicate any and all copyright interest in the
-software to the public domain. We make this dedication for the benefit
-of the public at large and to the detriment of our heirs and
-successors. We intend this dedication to be an overt act of
-relinquishment in perpetuity of all present and future rights to this
-software under copyright law.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE.
-
-For more information, please refer to <http://unlicense.org/>
-*/
 // Includes
 #define NOMINMAX
 #include <windows.h>
@@ -36,14 +11,14 @@ For more information, please refer to <http://unlicense.org/>
 #include "ini.h"
 #include <vector>
 #include "colordefs.h"
-#include "dsoundstream.h"
+#include "mmtimer.h"
 #include "mixer.h"
 
-
+double millsec = (double)1000 / (double)60;
+double gametime = 0;// = TimerGetTimeMS();
+double starttime = 0;
 //Library Includes
 #pragma comment(lib, "opengl32.lib")
-//#pragma comment(lib, "glu32.lib")
-
 
 //Globals
 HWND hWnd;
@@ -55,7 +30,29 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 void EnableOpenGL(HWND hWnd, HDC * hDC, HGLRC * hRC);
 void DisableOpenGL(HWND hWnd, HDC hDC, HGLRC hRC);
 
+static void throttle_speed(void)
+{
+	double millsec = millsec = (double)1000 / (double)60;
+	gametime = TimerGetTimeMS();
 
+	
+		while (((double)(gametime)-(double)starttime) < (double)millsec)
+		{
+			HANDLE current_thread = GetCurrentThread();
+			int old_priority = GetThreadPriority(current_thread);
+
+			if (((double)gametime - (double)starttime) < (double)(millsec - 4))
+			{
+				SetThreadPriority(current_thread, THREAD_PRIORITY_TIME_CRITICAL);
+				//Sleep(1);
+				SetThreadPriority(current_thread, old_priority);
+			}
+			//else Sleep(0);
+			gametime = TimerGetTimeMS();
+		}
+	
+	starttime = TimerGetTimeMS();
+}
 
 void ViewOrtho(int width, int height)
 {
@@ -67,8 +64,6 @@ void ViewOrtho(int width, int height)
 	glLoadIdentity();						  // Reset The Matrix
 }
 
-
-
 //========================================================================
 // Return the Window Handle
 //========================================================================
@@ -76,9 +71,6 @@ HWND win_get_window()
 {
 	return hWnd;
 }
-
-// WinMain
-
 
 int KeyCheck(int keynum)
 {
@@ -104,7 +96,6 @@ int KeyCheck(int keynum)
 		keys[keynum] = 0;
 	return 0;
 }
-
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_  LPSTR lpCmdLine, _In_ int iCmdShow)
 {
@@ -147,13 +138,14 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	wrlog("Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
 
 	wglSwapIntervalEXT(1);
+	TimerInit();
 	Font_Init(20);
 	HRESULT i = RawInput_Initialize(hWnd);
 	ViewOrtho(SCREEN_W, SCREEN_H);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	init_mixer(44100,60);
+	mixer_init(44100,60);
 	
 	load_sample(0, "data\\musicstereo.ogg");
 	load_sample(0, "data\\InGame1Loop.ogg");
@@ -161,8 +153,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	load_sample(0, "data\\fire.wav");
 	load_sample(0, "data\\ssaucer.wav");
 	load_sample(0, "data\\ZK13.wav");
-	load_sample(0, "data\\sfx_shieldDown.wav");
 	load_sample(0, "data\\Space_Alert1.wav");
+	load_sample(0, "data\\strings2mono.wav");
+
+	int channel_status[8] = { 0 };
 
 	/////////////////// END INITIALIZATION ////////////////////////////////////
 	
@@ -195,7 +189,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			glClear(GL_COLOR_BUFFER_BIT);
 			glColor3f(1.0f, 1.0f, 1.0f);
 			StartTextMode();
-			Font_Print(10, SCREEN_H - 75, "Sample Tester, press the corresponding key 0-7");
 			Font_Print(10, SCREEN_H - 150, "Sample 0: playing %d", sample_playing(0));
 			Font_Print(10, SCREEN_H - 200, "Sample 1: playing %d", sample_playing(1));
 			Font_Print(10, SCREEN_H - 250, "Sample 2: playing %d", sample_playing(2));
@@ -223,7 +216,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			if (KeyCheck(KEY_5)) { sample_start(5, 5, 0); }
 			if (KeyCheck(KEY_6)) { sample_start(6, 6, 0); }
 			if (KeyCheck(KEY_7)) { sample_start(7, 7, 0); }
-			
+		//	if (KeyCheck(KEY_8)) { sample_start(8, "ZK13", 0); }
 
 			if (KeyCheck(KEY_9))
 			{
@@ -234,24 +227,22 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				sample_start(4, 4, 0);
 			}
 
-
 			if (KeyCheck(KEY_ESC)) { quit = TRUE; }
 
 			EndTextMode();
-			update_mixer();
+			mixer_update();
+			throttle_speed();
 			SwapBuffers(hDC);
 		}
 	}
 
 	// shutdown OpenGL
 	DisableOpenGL(hWnd, hDC, hRC);
-	
-
-	
+		
 	wrlog("Closing Log");
 	KillFont();
 	//stream_stop(11,0);
-	end_mixer();
+	mixer_end();
 	LogClose();
 	// destroy the window explicitly
 	DestroyWindow(hWnd);

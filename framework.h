@@ -5,7 +5,6 @@
 #include "wglew.h"
 #include "log.h"
 
-
 extern HWND win_get_window();
 extern void ViewOrtho(int width, int height);
 extern int SCREEN_W;

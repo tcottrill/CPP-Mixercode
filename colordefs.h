@@ -4,6 +4,14 @@
 
 typedef unsigned int rgb_t;
 
+#define VECTOR_COLOR111(c) \
+	MAKE_RGB((((c) >> 2) & 1) * 0xff, (((c) >> 1) & 1) * 0xff, (((c) >> 0) & 1) * 0xff)
+
+#define VECTOR_COLOR222(c) \
+	MAKE_RGB((((c) >> 4) & 3) * 0x55, (((c) >> 2) & 3) * 0x55, (((c) >> 0) & 3) * 0x55)
+
+#define VECTOR_COLOR444(c) \
+	MAKE_RGB((((c) >> 8) & 15) * 0x11, (((c) >> 4) & 15) * 0x11, (((c) >> 0) & 15) * 0x11)
 
 #ifndef MAKE_RGB
 #define MAKE_RGB(r,g,b) ((((r) & 0xff) << 16) | (((g) & 0xff) << 8) | ((b) & 0xff))

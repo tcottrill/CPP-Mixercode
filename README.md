@@ -1,3 +1,5 @@
+Note: This code is deprecated: Please see https://github.com/tcottrill/Mixercode2 <br/>
+
 # CPP-Mixercode
 C/C++ Audio Mixer code
 
